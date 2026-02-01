@@ -1,0 +1,120 @@
+-- Kael Hub | Muscle Legends
+-- by Kael
+
+-- Library Premium
+local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+
+-- Serviços
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
+
+-- Window
+local Window = Rayfield:CreateWindow({
+   Name = "Kael Hub | Muscle Legends",
+   LoadingTitle = "Kael Hub",
+   LoadingSubtitle = "Muscle Legends",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "KaelHub",
+      FileName = "MuscleLegends"
+   },
+   KeySystem = false
+})
+
+-- Variáveis
+local AutoStrength = false
+local AutoSell = false
+local AutoRebirth = false
+
+-- Aba Main
+local MainTab = Window:CreateTab("🏋️ Main", 4483362458)
+
+MainTab:CreateParagraph({
+   Title = "Kael Hub",
+   Content = "Muscle Legends Script Premium\nAuto Farm | Auto Sell | Auto Rebirth"
+})
+
+-- Auto Strength
+MainTab:CreateToggle({
+   Name = "Auto Train Strength",
+   CurrentValue = false,
+   Callback = function(Value)
+      AutoStrength = Value
+      task.spawn(function()
+         while AutoStrength do
+            pcall(function()
+               ReplicatedStorage.Remotes.Train:FireServer("Strength")
+            end)
+            task.wait(0.1)
+         end
+      end)
+   end
+})
+
+-- Auto Sell
+MainTab:CreateToggle({
+   Name = "Auto Sell",
+   CurrentValue = false,
+   Callback = function(Value)
+      AutoSell = Value
+      task.spawn(function()
+         while AutoSell do
+            pcall(function()
+               ReplicatedStorage.Remotes.Sell:FireServer()
+            end)
+            task.wait(0.5)
+         end
+      end)
+   end
+})
+
+-- Auto Rebirth
+MainTab:CreateToggle({
+   Name = "Auto Rebirth",
+   CurrentValue = false,
+   Callback = function(Value)
+      AutoRebirth = Value
+      task.spawn(function()
+         while AutoRebirth do
+            pcall(function()
+               ReplicatedStorage.Remotes.Rebirth:FireServer()
+            end)
+            task.wait(1)
+         end
+      end)
+   end
+})
+
+-- Aba Teleports
+local TpTab = Window:CreateTab("🌍 Teleports", 4483362458)
+
+TpTab:CreateButton({
+   Name = "Teleport Sell Area",
+   Callback = function()
+      LocalPlayer.Character.HumanoidRootPart.CFrame =
+         workspace.SellAreas.SellArea.CFrame
+   end
+})
+
+TpTab:CreateButton({
+   Name = "Teleport Spawn",
+   Callback = function()
+      LocalPlayer.Character.HumanoidRootPart.CFrame =
+         workspace.SpawnLocation.CFrame
+   end
+})
+
+-- Aba Extra
+local ExtraTab = Window:CreateTab("⚙️ Extra", 4483362458)
+
+ExtraTab:CreateButton({
+   Name = "Notify",
+   Callback = function()
+      Rayfield:Notify({
+         Title = "Kael Hub",
+         Content = "Muscle Legends ativo!",
+         Duration = 4
+      })
+   end
+})
