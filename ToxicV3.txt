@@ -1,3 +1,91 @@
+--// TOXIC V3 - KEY SYSTEM (UserID)
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+-- LINK RAW DAS KEYS GERADAS PELO DISCORD
+local KEYS_URL = "https://raw.githubusercontent.com/SEUUSER/keys/main/keys.txt"
+
+-- Busca keys online
+local function fetchKeys()
+    local success, result = pcall(function()
+        return game:HttpGet(KEYS_URL)
+    end)
+    return success and result or ""
+end
+
+-- Validação da key
+local function validateKey(input)
+    -- key obrigatoriamente = KAEL-USERID
+    local expectedKey = "KAEL-" .. LocalPlayer.UserId
+    if input ~= expectedKey then
+        return false
+    end
+
+    local keys = fetchKeys()
+    for key in string.gmatch(keys, "[^\r\n]+") do
+        if key == input then
+            return true
+        end
+    end
+    return false
+end
+
+-- UI da Key
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "ToxicV3_KeySystem"
+ScreenGui.Parent = game.CoreGui
+
+local Frame = Instance.new("Frame", ScreenGui)
+Frame.Size = UDim2.new(0, 320, 0, 170)
+Frame.Position = UDim2.new(0.5, -160, 0.5, -85)
+Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+Frame.Active = true
+Frame.Draggable = true
+
+local Title = Instance.new("TextLabel", Frame)
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.Text = "🔐 TOXIC V3 | Key System"
+Title.TextColor3 = Color3.new(1,1,1)
+Title.BackgroundTransparency = 1
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 16
+
+local TextBox = Instance.new("TextBox", Frame)
+TextBox.Size = UDim2.new(0.9, 0, 0, 35)
+TextBox.Position = UDim2.new(0.05, 0, 0.4, 0)
+TextBox.PlaceholderText = "Cole sua key do Discord"
+TextBox.Text = ""
+TextBox.Font = Enum.Font.Gotham
+TextBox.TextSize = 14
+TextBox.BackgroundColor3 = Color3.fromRGB(35,35,35)
+TextBox.TextColor3 = Color3.new(1,1,1)
+
+local Button = Instance.new("TextButton", Frame)
+Button.Size = UDim2.new(0.9, 0, 0, 35)
+Button.Position = UDim2.new(0.05, 0, 0.7, 0)
+Button.Text = "VERIFICAR KEY"
+Button.Font = Enum.Font.GothamBold
+Button.TextSize = 14
+Button.BackgroundColor3 = Color3.fromRGB(0, 140, 255)
+Button.TextColor3 = Color3.new(1,1,1)
+
+local keyValidated = false
+
+Button.MouseButton1Click:Connect(function()
+    if validateKey(TextBox.Text) then
+        keyValidated = true
+        ScreenGui:Destroy()
+        print("[TOXIC V3] Key válida | UserID confirmado")
+    else
+        TextBox.Text = ""
+        TextBox.PlaceholderText = "❌ Key inválida ou UserID errado"
+        warn("[TOXIC V3] Tentativa de key inválida")
+    end
+end)
+
+-- BLOQUEIA O SCRIPT ATÉ VALIDAR
+repeat task.wait() until keyValidated == true
+
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
@@ -4886,4 +4974,5 @@ Credits:AddLabel("Toxic Paid V3")
 Credits:AddLabel("Script Hecho por: Rafael")
 Credits:AddLabel("Tiktok:")
 Credits:AddLabel("MVX ON TOP 🔥")
+
 Credits:AddLabel("JASSON MI VIEJA")
