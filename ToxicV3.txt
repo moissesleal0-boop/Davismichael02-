@@ -1,27 +1,27 @@
-const { Client, GatewayIntentBits } = require("discord.js");
-const fs = require("fs");
+--// KAEL HUB - DISCORD KEY SYSTEM
+local HttpService = game:GetService("HttpService")
 
-const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]
-});
+local KEYS_URL = "https://raw.githubusercontent.com/SEUUSER/keys/main/keys.txt"
 
-client.once("ready", () => {
-  console.log("Bot ligado!");
-});
+local function fetchKeys()
+    local success, result = pcall(function()
+        return game:HttpGet(KEYS_URL)
+    end)
+    if success then
+        return result
+    end
+    return ""
+end
 
-client.on("messageCreate", message => {
-  if (message.content === "!key") {
-    const key = "KAEL-" + Math.random().toString(36).substr(2, 4).toUpperCase()
-      + "-" + Math.random().toString(36).substr(2, 4).toUpperCase();
-
-    fs.appendFileSync("keys.txt", key + "\n");
-
-    message.author.send("🔐 Sua key:\n```" + key + "```");
-    message.reply("📩 Te mandei a key no privado!");
-  }
-});
-
-client.login("SEU_TOKEN_AQUI");
+local function isValidKey(input)
+    local keys = fetchKeys()
+    for key in string.gmatch(keys, "[^\r\n]+") do
+        if input == key then
+            return true
+        end
+    end
+    return false
+end
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
@@ -4772,5 +4772,6 @@ Credits:AddLabel("Tiktok:")
 Credits:AddLabel("MVX ON TOP 🔥")
 
 Credits:AddLabel("JASSON MI VIEJA")
+
 
 
