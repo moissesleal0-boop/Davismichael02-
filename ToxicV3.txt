@@ -1,27 +1,3 @@
---// KAEL HUB - DISCORD KEY SYSTEM
-local HttpService = game:GetService("HttpService")
-
-local KEYS_URL = "https://raw.githubusercontent.com/SEUUSER/keys/main/keys.txt"
-
-local function fetchKeys()
-    local success, result = pcall(function()
-        return game:HttpGet(KEYS_URL)
-    end)
-    if success then
-        return result
-    end
-    return ""
-end
-
-local function isValidKey(input)
-    local keys = fetchKeys()
-    for key in string.gmatch(keys, "[^\r\n]+") do
-        if input == key then
-            return true
-        end
-    end
-    return false
-end
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
@@ -4772,6 +4748,7 @@ Credits:AddLabel("Tiktok:")
 Credits:AddLabel("MVX ON TOP 🔥")
 
 Credits:AddLabel("JASSON MI VIEJA")
+
 
 
 
